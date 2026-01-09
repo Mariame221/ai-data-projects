@@ -1,0 +1,64 @@
+# mar_IA_me – Système de pointage intelligent et vocal
+
+## 🏢 Contexte
+mar_IA_me est un projet personnel visant à repenser le système de pointage en entreprise
+en proposant une expérience d’accueil intelligente, vocale et personnalisée.
+
+L’objectif est de dépasser le simple enregistrement d’entrées et sorties
+pour créer une interaction professionnelle, chaleureuse et contextualisée
+entre l’entreprise et ses employés.
+
+## 🎯 Objectifs du projet
+- Remplacer un système de pointage classique par une IA vocale intelligente
+- Sécuriser l’identification des employés
+- Personnaliser l’expérience selon le contexte et le profil
+- Améliorer l’engagement et l’expérience employé
+
+## 🔐 Pointage sécurisé via QR Code
+- Chaque employé dispose d’un QR code unique
+- Scan du QR code à l’arrivée et à la sortie
+- Identification automatique de l’employé
+- Gestion des entrées et sorties en temps réel
+
+## 🗣️ Synthèse vocale dynamique
+- Génération de messages vocaux en temps réel
+- Utilisation de SSML pour une voix naturelle et expressive
+- Synthèse vocale via Azure Cognitive Services (fr-FR)
+- Fichiers audio MP3 générés dynamiquement
+
+## 👤 Messages personnalisés
+Le message vocal s’adapte au contexte :
+- Message d’accueil standard
+- Message spécifique pour la direction / manager
+- Message adapté en cas de retard
+- Message de refus d’accès
+- Message de départ en fin de journée
+
+## 🎉 Événements et cas particuliers
+- Message d’anniversaire
+- Message de félicitations ou d’événement interne (optionnel)
+- Adaptation du ton et du contenu selon l’événement
+
+## 🖥️ Interface utilisateur
+- Interface web moderne
+- Effet “IA qui parle”
+- Avatar animé synchronisé avec la voix
+- Feedback visuel et audio
+- Historique minimal des interactions côté front
+
+## 🏗️ Stack technique
+- Python – Flask (backend API)
+- Azure Cognitive Services (Text-to-Speech)
+- SSML (personnalisation avancée de la voix)
+- HTML / CSS / JavaScript (frontend)
+
+## 👩‍💻 Mon rôle
+- Conception de l’idée et du fonctionnement global
+- Développement du backend en Python
+- Intégration de la synthèse vocale IA
+- Gestion de la logique métier (pointage, messages, règles)
+- Développement de l’interface utilisateur
+
+## 🚧 Statut
+Projet personnel en cours de développement.
+Certaines fonctionnalités sont encore à l’état de prototype.
