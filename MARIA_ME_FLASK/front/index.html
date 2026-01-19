@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>mar‑IA‑me — Gardienne intelligente</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<!-- Effet boot -->
+<div class="boot-overlay"></div>
+
+<!-- Fond holographique -->
+<div class="background"></div>
+
+<div class="wrapper">
+    <header class="header">
+
+        <!-- Logo animé -->
+        <div class="logo glitch">mar‑<span>IA</span>‑me</div>
+
+        <!-- Avatar IA animé -->
+        <div class="ai-avatar"></div>
+
+        <div class="tagline">La gardienne intelligente de votre entreprise</div>
+    </header>
+
+    <main class="main">
+        <section class="panel glass">
+            <h1>Pointage sécurisé</h1>
+            <p class="panel-subtitle">
+                Scannez votre QR code pour être accueilli par mar‑IA‑me.
+            </p>
+
+            <div class="input-group">
+                <label for="qr">QR code employé</label>
+
+                <div class="scan-row">
+                    <input id="qr" type="text" placeholder="Ex : EMP-001-ALPHA">
+                    <select id="type">
+                        <option value="in">Entrée</option>
+                        <option value="out">Sortie</option>
+                    </select>
+                </div>
+            </div>
+
+            <button id="scan-btn">Valider le pointage</button>
+            <button id="speak-btn" class="speak-btn">Faire parler mar‑IA‑me</button>
+
+            <div id="loader" class="loader hidden">
+                <div class="loader-dot"></div>
+                <div class="loader-dot"></div>
+                <div class="loader-dot"></div>
+            </div>
+
+            <div id="response" class="response glass">
+                <div class="response-label">mar‑IA‑me :</div>
+                <div id="response-text" class="response-text">En attente d’un pointage…</div>
+            </div>
+
+            <div id="error" class="error hidden"></div>
+        </section>
+
+        <section class="side glass">
+            <h2>Statut système</h2>
+            <ul class="status-list">
+                <li><span class="dot online"></span> Serveur mar‑IA‑me opérationnel</li>
+                <li><span class="dot online"></span> Base employés connectée</li>
+                <li><span class="dot online"></span> Module événements actif</li>
+                <li><span class="dot standby"></span> Notifications avancées (Slack / SMS) en attente de configuration</li>
+            </ul>
+
+            <h2>Philosophie</h2>
+            <p class="side-text">
+                mar‑IA‑me est conçue pour offrir une expérience de pointage fluide et sécurisée.  
+                C’est une gardienne numérique qui veille sur vos accès, vos équipes et vos journées.
+            </p>
+        </section>
+    </main>
+</div>
+
+<!-- Sons -->
+<audio id="scan-sound" src="/audio/scan.mp3"></audio>
+<audio id="voice" src="/audio/last_voice.mp3"></audio>
+
+<!-- Script JS -->
+<script src="/front/script.js"></script>
+
+
+</body>
+</html>
