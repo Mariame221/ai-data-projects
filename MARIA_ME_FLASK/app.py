@@ -4,34 +4,78 @@ import webbrowser
 from threading import Timer
 from ssml_messages import build_ssml
 from gtts import gTTS
+
 import re
 
 app = Flask(__name__, static_folder="front", template_folder="front")
 
 
-
-
+# ==============================
+# FONCTION AUDIO
+# ==============================
 def generate_audio_from_ssml(ssml_text, output_path="front/last_voice.mp3"):
-    # Nettoyage du SSML → texte simple
-    clean_text = re.sub("<[^>]+>", "", ssml_text)
-
-    # Génération audio Google TTS
+    clean_text = re.sub("<[^>]+>", "", ssml_text)  # Nettoyage SSML
     tts = gTTS(clean_text, lang="fr")
     tts.save(output_path)
-
     print("Audio généré via gTTS :", output_path)
     return output_path
+
 
 # ==============================
 # BASE EMPLOYÉS
 # ==============================
 EMPLOYES = {
-    "EMP-001-ALPHA": {"prenom": "Gloria", "is_boss": False},
-    "EMP-002-BETA": {"prenom": "Sarah", "is_boss": False},
+    # --- Employés standards ---
+    "EMP-001-ALPHA": {"prenom": "Gloria"},
+    "EMP-002-BETA": {"prenom": "Sarah"},
+    "EMP-003-GAMMA": {"prenom": "Ousmane"},
+    "EMP-004-DELTA": {"prenom": "Fatou"},
+
+    # --- Boss / Direction ---
     "BOSS-001": {"prenom": "Madame Bah", "is_boss": True},
-    "EMP-ANNIV": {"prenom": "stébou", "is_boss": False, "anniversaire": True},
-    "REFUS-001": {"prenom": "Inconnu", "is_boss": False, "refus": True},
-    "RETARD-001": {"prenom": "penda", "is_boss": False, "retard": 12}
+    "BOSS-002": {"prenom": "Monsieur Diallo", "is_boss": True},
+
+    # --- Anniversaire ---
+    "EMP-ANNIV-001": {"prenom": "Stébou", "anniversaire": True},
+    "EMP-ANNIV-002": {"prenom": "Moussa", "anniversaire": True},
+
+    # --- Retard ---
+    "RETARD-001": {"prenom": "Penda", "retard": 12},
+    "RETARD-002": {"prenom": "Abdou", "retard": 25},
+
+    # --- Avance ---
+    "AVANCE-001": {"prenom": "Mariama", "avance": 15},
+
+    # --- Absence ---
+    "ABS-001": {"prenom": "Cheikh", "absent": True},
+
+    # --- Télétravail ---
+    "REMOTE-001": {"prenom": "Awa", "remote": True},
+
+    # --- Pause ---
+    "BREAK-001": {"prenom": "Ibrahima", "pause": True},
+
+    # --- Réunion ---
+    "MEET-001": {"prenom": "Seynabou", "meeting": "10h00"},
+    "MEET-002": {"prenom": "Mamadou", "meeting": "14h30"},
+
+    # --- Formation ---
+    "FORM-001": {"prenom": "Khadija", "formation": "Sécurité incendie"},
+
+    # --- Congés ---
+    "OFF-001": {"prenom": "Ndeye", "conges": True},
+
+    # --- Avertissement ---
+    "WARN-001": {"prenom": "Alioune", "avertissement": True},
+
+    # --- VIP ---
+    "VIP-001": {"prenom": "Samba", "vip": True},
+
+    # --- Refus ---
+    "REFUS-001": {"prenom": "Inconnu", "refus": True},
+
+    # --- Debug ---
+    "TEST-VOICE": {"prenom": "Test", "debug": True}
 }
 
 
@@ -60,39 +104,40 @@ def scan():
         return jsonify({"detail": "Employé inconnu"}), 400
 
     employe = EMPLOYES[qr]
-    prenom = employe.get("prenom")
-    is_boss = employe.get("is_boss", False)
-    retard = employe.get("retard", 0)
-    anniversaire = employe.get("anniversaire", False)
-    refus = employe.get("refus", False)
 
-    status = data.get("status", "normal")
-
-    # Génération du SSML
+    # Extraction des infos
     ssml_message = build_ssml(
-        prenom=prenom,
-        retard=retard,
-        is_boss=is_boss,
-        anniversaire=anniversaire,
-        refus=refus,
-        status=status
+        prenom=employe.get("prenom"),
+        retard=employe.get("retard", 0),
+        avance=employe.get("avance", 0),
+        is_boss=employe.get("is_boss", False),
+        anniversaire=employe.get("anniversaire", False),
+        refus=employe.get("refus", False),
+        absent=employe.get("absent", False),
+        remote=employe.get("remote", False),
+        pause=employe.get("pause", False),
+        meeting=employe.get("meeting"),
+        formation=employe.get("formation"),
+        conges=employe.get("conges", False),
+        avertissement=employe.get("avertissement", False),
+        vip=employe.get("vip", False),
+        status=data.get("status", "normal")
     )
 
-    print("=== SSML GÉNÉRÉ ===")
+    print("=== SSML GÉNÉRÉ ===\n")
     print(ssml_message)
-    print("===================")
+    print("\n===================")
 
-    # Génération audio locale
     generate_audio_from_ssml(ssml_message)
 
     return jsonify({
-        "message": f"Message généré pour {prenom}",
+        "message": f"Message généré pour {employe.get('prenom')}",
         "audio": "/audio/last_voice.mp3"
     })
 
 
 # ==============================
-# AUTO-OUVERTURE DU NAVIGATEUR
+# OUVERTURE AUTOMATIQUE DU NAVIGATEUR
 # ==============================
 def open_browser():
     webbrowser.open("http://127.0.0.1:5000")
